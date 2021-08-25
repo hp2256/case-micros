@@ -1,4 +1,4 @@
-package com.hp.guestsmgmtservice.models;
+package com.hp.staffmgmtservice.models;
 
 public class Address {
     private String street;

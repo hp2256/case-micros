@@ -1,4 +1,4 @@
-package com.hp.guestsmgmtservice;
+package com.hp.staffmgmtservice;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

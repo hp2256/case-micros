@@ -1,7 +1,7 @@
-package com.hp.guestsmgmtservice.services;
+package com.hp.staffmgmtservice.services;
 
-import com.hp.guestsmgmtservice.models.Staff;
-import com.hp.guestsmgmtservice.repos.StaffRepository;
+import com.hp.staffmgmtservice.models.Staff;
+import com.hp.staffmgmtservice.repos.StaffRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,22 +19,25 @@ public class StaffService {
         return all;
     }
 
-    public Staff getGuest(int id) {
+    public Staff getStaff(String id) {
         if (staffRepository.findById(id).isPresent())
             return staffRepository.findById(id).get();
         else
             return null;
     }
 
-    public void addGuest(Staff staff) {
+    public void addStaff(Staff staff) {
         staffRepository.save(staff);
     }
 
-    public void updateGuest(Staff staff) {
+    public void updateStaff(Staff staff) {
         staffRepository.save(staff);
     }
 
-    public void deleteGuest(Staff staff) {
-        staffRepository.delete(staff);
+ /*   public void deleteStaff(String id) {
+        staffRepository.deleteById(Integer.parseInt(id));
+    }*/
+    public void deleteStaffById(String id){
+        staffRepository.deleteStaffById(id);
     }
 }
