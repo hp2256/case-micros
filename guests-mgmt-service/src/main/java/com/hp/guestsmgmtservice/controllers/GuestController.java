@@ -15,7 +15,7 @@ public class GuestController {
     GuestsService guestsService;
 
     @GetMapping("/allguests")
-    public List<Guest> getAllGuests(){
+    public List<Guest> getAllGuests() {
         return guestsService.getAll();
     }
 
@@ -25,7 +25,17 @@ public class GuestController {
     }*/
 
     @PostMapping("/addguest")
-    public void addGuest(@RequestBody Guest newGuest){
-        guestsService.addGuest(newGuest);
+    public Guest addGuest(@RequestBody Guest newGuest) {
+        return guestsService.addGuest(newGuest);
+    }
+
+    @PutMapping("/updateguest")
+    public Guest updateGuest(@RequestBody Guest updateGuest) {
+        return guestsService.updateGuest(updateGuest);
+    }
+
+    @DeleteMapping("/removeguest")
+    public void removeGuest(@RequestBody Guest removeGuest) {
+        guestsService.deleteGuest(removeGuest);
     }
 }

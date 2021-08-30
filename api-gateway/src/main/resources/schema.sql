@@ -1,0 +1,51 @@
+
+
+
+SET FOREIGN_KEY_CHECKS=0;
+
+DROP TABLE IF EXISTS calendar;
+DROP TABLE IF EXISTS room;
+DROP TABLE IF EXISTS customer;
+DROP TABLE IF EXISTS booking_dates;
+DROP TABLE IF EXISTS room_calendar;
+DROP TABLE IF EXISTS booking_dates;
+DROP TABLE IF EXISTS bookings;
+DROP TABLE IF EXISTS booking;
+DROP TABLE IF EXISTS roles;
+DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS user_roles;
+DROP TABLE IF EXISTS customer_calendar;
+DROP TABLE IF EXISTS person;
+
+
+
+CREATE TABLE IF NOT EXISTS roles (
+   id INTEGER NOT NULL AUTO_INCREMENT,
+   name VARCHAR(20) NULL,
+   PRIMARY KEY (id)
+   );
+CREATE TABLE IF NOT EXISTS users (
+   id INTEGER NOT NULL AUTO_INCREMENT,
+   username VARCHAR(50) UNIQUE NOT NULL,
+   password VARCHAR(64) NULL,
+   email VARCHAR(45) UNIQUE NULL,
+
+   PRIMARY KEY (id)
+   );
+CREATE TABLE IF NOT EXISTS user_roles (
+   user_id INTEGER NOT NULL,
+   role_id INTEGER NOT NULL,
+   FOREIGN KEY (user_id) REFERENCES users(id),
+   FOREIGN KEY (role_id) REFERENCES roles(id)
+   );
+
+
+
+
+
+
+SET FOREIGN_KEY_CHECKS=1;
+
+
+
+

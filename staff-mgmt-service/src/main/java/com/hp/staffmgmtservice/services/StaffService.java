@@ -27,7 +27,7 @@ public class StaffService {
     }
 
     public void addStaff(Staff staff) {
-        staffRepository.save(staff);
+        staffRepository.insert(staff);
     }
 
     public void updateStaff(Staff staff) {

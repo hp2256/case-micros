@@ -26,12 +26,12 @@ public class GuestsService {
             return null;
     }
 
-    public void addGuest(Guest guest) {
-        guestRepository.save(guest);
+    public Guest addGuest(Guest guest) {
+        return guestRepository.save(guest);
     }
 
-    public void updateGuest(Guest guest) {
-        guestRepository.save(guest);
+    public Guest updateGuest(Guest guest) {
+        return guestRepository.save(guest);
     }
 
     public void deleteGuest(Guest guest) {

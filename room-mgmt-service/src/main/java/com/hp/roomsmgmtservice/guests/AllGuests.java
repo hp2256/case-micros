@@ -1,9 +1,8 @@
-/*
-package com.hp.guestsmgmtservice.models;
+package com.hp.roomsmgmtservice.guests;
 
 import java.util.List;
 
-public class Guests {
+public class AllGuests {
     private List<Guest> guestList;
 
     public List<Guest> getGuestList() {
@@ -14,8 +13,7 @@ public class Guests {
         this.guestList = guestList;
     }
 
-    public Guests(List<Guest> guestList) {
+    public AllGuests(List<Guest> guestList) {
         this.guestList = guestList;
     }
 }
-*/
