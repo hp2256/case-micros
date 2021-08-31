@@ -26,17 +26,23 @@ public class SearchService {
     private String roomsUrl = "http://case-rooms/";
 
     public List<Rooms> searchRooms(LocalDate checkIn, LocalDate checkOut) {
-        AllRooms allRooms = restTemplate.getForObject(roomsUrl + "allrooms", AllRooms.class);
-        List<Reservations> reservedRooms = reservedRoomsMgmtService.getAllReservations();
-        List<Rooms> filtered = allRooms.getRooms();
-        for (int i=0;i<reservedRooms.size();i++){
-            if (checkIn.isAfter(reservedRooms.get(i).getCheckInDate())
-                            && checkOut.isBefore(reservedRooms.get(i).getCheckOutDate())){
-                Reservations r = reservedRooms.get(i);
-              filtered=  allRooms.getRooms().stream().filter(x->!x.getId().equals(r.getRoomId())).collect(Collectors.toList());
+        try {
+            AllRooms allRooms = restTemplate.getForObject(roomsUrl + "allrooms", AllRooms.class);
+            List<Reservations> reservedRooms = reservedRoomsMgmtService.getAllReservations();
+            List<Rooms> filtered = allRooms.getRooms();
+            for (int i = 0; i < reservedRooms.size(); i++) {
+                if (checkIn.isAfter(reservedRooms.get(i).getCheckInDate())
+                        && checkOut.isBefore(reservedRooms.get(i).getCheckOutDate())) {
+                    Reservations r = reservedRooms.get(i);
+                    filtered = allRooms.getRooms().stream().filter(x -> !x.getId().equals(r.getRoomId())).collect(Collectors.toList());
+                }
             }
+            return filtered;
         }
-        return filtered;
+        catch (Exception e){
+            logger.error("ERROR:" +e);
+        }
+        return null;
       //  !x.getCheckInDate().after(checkIn)&&!x.getCheckOutDate().before(checkOut)
 
       //  return null;

@@ -52,7 +52,10 @@ public class RoomsController {
             @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate checkIn,
             @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate checkOut) {
         logger.info("check in date {} and check out date {}", checkIn, checkOut);
-        return new AllRooms(searchService.searchRooms(checkIn, checkOut));
+        if (searchService.searchRooms(checkIn,checkOut)!=null) {
+            return new AllRooms(searchService.searchRooms(checkIn, checkOut));
+        }
+        return null;
     }
 
     @PostMapping("/addreservation")
