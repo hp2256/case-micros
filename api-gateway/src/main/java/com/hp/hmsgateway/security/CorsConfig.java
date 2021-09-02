@@ -30,7 +30,7 @@ public class CorsConfig implements WebMvcConfigurer {
         bean.setOrder(Ordered.HIGHEST_PRECEDENCE);
         return bean;
     }*/
-  /*  @Bean
+    @Bean
     public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {
             @Override
@@ -41,7 +41,7 @@ public class CorsConfig implements WebMvcConfigurer {
                 ;
             }
         };
-    }*/
+    }
 
     /*
     @Bean

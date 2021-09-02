@@ -1,3 +1,4 @@
+/*
 package com.hp.reservemgmtservice.services;
 
 import org.slf4j.Logger;
@@ -9,9 +10,9 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-public class CorsConfiguration {
+public class CorsConfig {
 
-    Logger logger = LoggerFactory.getLogger(CorsConfiguration.class);
+    Logger logger = LoggerFactory.getLogger(CorsConfig.class);
     @Value("${server.port}")
     int serverport;
 
@@ -25,4 +26,4 @@ public class CorsConfiguration {
             }
         };
     }
-}
+}*/

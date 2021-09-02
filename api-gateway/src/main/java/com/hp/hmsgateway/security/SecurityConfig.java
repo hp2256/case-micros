@@ -73,7 +73,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
         //   http.headers().frameOptions().disable();
-        http.cors();
+
+       http.cors();
 
     }
    /* @Bean

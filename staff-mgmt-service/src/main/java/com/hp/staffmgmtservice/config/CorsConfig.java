@@ -1,4 +1,5 @@
-package com.hp.ownerservice.services;
+/*
+package com.hp.staffmgmtservice.services;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,9 +22,8 @@ public class CorsConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 logger.info("SERVER PORT IS cors {}", serverport);
-                registry.addMapping("/**")
-                        .allowedOrigins("http://localhost:" + serverport);
+                registry.addMapping("/**").allowedOrigins("http://localhost:"+serverport);
             }
         };
     }
-}
+}*/

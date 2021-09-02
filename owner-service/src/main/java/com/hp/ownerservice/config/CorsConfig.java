@@ -1,4 +1,5 @@
-package com.hp.roomsmgmtservice.services;
+/*
+package com.hp.ownerservice.services;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,9 +10,9 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-public class CorsConfiguration {
+public class CorsConfig {
 
-    Logger logger = LoggerFactory.getLogger(CorsConfiguration.class);
+    Logger logger = LoggerFactory.getLogger(CorsConfig.class);
     @Value("${server.port}")
     int serverport;
 
@@ -22,9 +23,8 @@ public class CorsConfiguration {
             public void addCorsMappings(CorsRegistry registry) {
                 logger.info("SERVER PORT IS cors {}", serverport);
                 registry.addMapping("/**")
-                        .allowedOrigins("*")
-                ;
+                        .allowedOrigins("http://localhost:" + serverport);
             }
         };
     }
-}
+}*/

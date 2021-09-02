@@ -12,6 +12,7 @@ import com.hp.reservemgmtservice.repos.PaymentRepo;
 import com.hp.reservemgmtservice.repos.ReservedRoomsMgmtService;
 import com.hp.reservemgmtservice.services.BillGenerate;
 import com.hp.reservemgmtservice.services.SearchService;
+import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,13 +24,13 @@ import java.time.LocalDate;
 
 @RestController
 @RequestMapping("/")
-@CrossOrigin(origins = "*", allowedHeaders = "*")
-public class RoomsController {
+//@CrossOrigin(origins = "*", allowedHeaders = "*")
+public class ReservationsController {
 
     @Autowired
     ReservedRoomsMgmtService reservationService;
 
-    Logger logger = LoggerFactory.getLogger(RoomsController.class);
+    Logger logger = LoggerFactory.getLogger(ReservationsController.class);
     @Autowired
     SearchService searchService;
 
@@ -45,6 +46,7 @@ public class RoomsController {
     private String roomsUrl = "http://case-rooms/";
 
     @GetMapping("/allreservations")
+    @ApiOperation(value = "All the reservations", notes = "Fetches all the reservations in the hotel")
     public AllReservations getAllrooms() {
         return new AllReservations(reservationService.getAllReservations());
 
@@ -53,6 +55,8 @@ public class RoomsController {
 
     //search providing dates
     @GetMapping("/search/{checkIn}/{checkOut}")
+    @ApiOperation(value = "search rooms", notes = "searches rooms by given checkin and checkout date in the hotel")
+
     //search/{source}/{dest}/{date}
     public AllRooms getRooms(
             @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate checkIn,
@@ -65,6 +69,8 @@ public class RoomsController {
     }
 
     @PostMapping("/addreservation")
+    @ApiOperation(value = "add the reservation", notes = "adds a reservation in the hotel")
+
     public Reservations addReservation(@RequestBody Reservations reservations) {
         try {
             int numberOfNights =
@@ -82,11 +88,14 @@ public class RoomsController {
     }
 
     @GetMapping("/reservations/{id}")
+    @ApiOperation(value = "get the reservation", notes = "Fetches the given reservation in the hotel")
+
     public Reservations getReservations(@PathVariable String id) {
         return reservationService.findOneById(id);
     }
 
     @PutMapping("/updatereservations")
+    @ApiOperation(value = "updates the reservation", notes = "Updates the reservation in the hotel")
     public Reservations udpateRates(@RequestBody Reservations reservations) {
         return reservationService.updateOneReservations(reservations);
     }
@@ -94,20 +103,25 @@ public class RoomsController {
 
     //create the bill
     @PostMapping("/issuebill")
+    @ApiOperation(value = "issues a bill", notes = "Issues a bill and if it exists returns existing bill")
+
     public Bill addBill(@RequestBody Reservations reservations) {
         if (reservations.getBillId() == null || reservations.getBillId().equals("")) {
             return billGenerate.issueBill(reservations);
-        } else return null;
+        }
+        else return billsRepo.findOneById(reservations.getBillId());
     }
 
     //get a single bill by id
     @GetMapping("/getbill/{id}")
+    @ApiOperation(value = "gets a bill", notes = "gets a bill by its id")
     public Bill getBill(@PathVariable String id) {
         return billsRepo.findOneById(id);
     }
 
 
     @GetMapping("/getbills")
+    @ApiOperation(value = "gets all bills", notes = "gets all the bills")
     public AllBills getAllBills() {
         return new AllBills(billsRepo.getAllBills());
     }
@@ -115,6 +129,7 @@ public class RoomsController {
 
     //add credit cards
     @PostMapping("/addpayment")
+    @ApiOperation(value = "adds a payment", notes = "adds a payment and updates bill which inturn updates the reservation")
     public Payments addPayment(@RequestBody Payments payments) {
         return paymentRepo.addPayments(payments);
     }

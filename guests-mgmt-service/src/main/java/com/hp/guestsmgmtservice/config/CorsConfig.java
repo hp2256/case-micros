@@ -1,3 +1,4 @@
+/*
 package com.hp.guestsmgmtservice.config;
 
 import org.slf4j.Logger;
@@ -9,6 +10,7 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
+*/
 /*public class CorsConfig implements WebMvcConfigurer {
     @Bean
     public CorsConfig corsConfigurer() {
@@ -24,17 +26,22 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
                         .exposedHeaders("Access-Control-Allow-Origin", "Access-Control-Allow-Credentials")
                         .allowCredentials(true).maxAge(36000000);
 
-               *//*   .addMapping("/*")
+               *//*
+*/
+/*   .addMapping("/*")
                         .allowedOrigins("http://localhost:4200")
                         .allowedMethods("GET", "POST", "OPTIONS", "PUT")
                         .allowedHeaders("Content-Type", "X-Requested-With", "accept", "Origin", "Access-Control-Request-Method",
                                 "Access-Control-Request-Headers","Access-Control-Allow-Origin")
                         .exposedHeaders("Access-Control-Allow-Origin", "Access-Control-Allow-Credentials")
                         .allowCredentials(true).maxAge(36000000);*//*
+*/
+/*
             }
         };
     }
-}*/
+}*//*
+
 public class CorsConfig {
 
     Logger logger = LoggerFactory.getLogger(CorsConfig.class);
@@ -52,3 +59,4 @@ public class CorsConfig {
         };
     }
 }
+*/
