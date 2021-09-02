@@ -1,28 +1,42 @@
 package com.hp.ownerservice.models.report;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.time.LocalDate;
 import java.util.Date;
 
-//@Document(collection = "reports")
+@Document(collection = "reports")
 public class Report {
-    private Date reportDate;
+    @Id
+    private String id;
+    private LocalDate reportDate;
     private int numberOfStaff;
     private Long staffPayment;
     private Long totalIncome;
 
     Report(){}
 
-    public Report(Date reportDate, int numberOfStaff, Long staffPayment, Long totalIncome) {
+    public Report(LocalDate reportDate, int numberOfStaff, Long staffPayment, Long totalIncome) {
         this.reportDate = reportDate;
         this.numberOfStaff = numberOfStaff;
         this.staffPayment = staffPayment;
         this.totalIncome = totalIncome;
     }
 
-    public Date getReportDate() {
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public LocalDate getReportDate() {
         return reportDate;
     }
 
-    public void setReportDate(Date reportDate) {
+    public void setReportDate(LocalDate reportDate) {
         this.reportDate = reportDate;
     }
 

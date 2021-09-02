@@ -7,7 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
 
-@Configuration
+//@Configuration
 public class ErrorFilter extends ZuulFilter {
     private static Logger log = LoggerFactory.getLogger(ErrorFilter.class);
     @Override

@@ -1,8 +1,10 @@
 package com.hp.reservemgmtservice.repos;
 
 import com.hp.reservemgmtservice.dao.PaymentDao;
+import com.hp.reservemgmtservice.dao.ReservedRoomsDao;
 import com.hp.reservemgmtservice.models.Payments;
 import com.hp.reservemgmtservice.models.bills.Bill;
+import com.hp.reservemgmtservice.models.reserved.Reservations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -14,6 +16,8 @@ public class PaymentRepo {
     @Autowired
     PaymentDao paymentDao;
 
+    @Autowired
+    ReservedRoomsDao reservedRoomsDao;
     @Autowired
     BillsRepo billsRepo;
 
@@ -31,6 +35,10 @@ public class PaymentRepo {
     public Payments addPayments(Payments payments) {
         Bill updateBillStatus = billsRepo.findOneById(payments.getBillId());
         updateBillStatus.setPaidStatus(true);
+        billsRepo.saveBill(updateBillStatus);
+        Reservations reservations = reservedRoomsDao.findOneById(updateBillStatus.getReservationId());
+        reservations.setStatus(true);
+        reservedRoomsDao.saveReservations(reservations);
         return paymentDao.save(payments);
     }
 

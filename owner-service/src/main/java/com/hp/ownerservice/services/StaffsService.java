@@ -16,8 +16,9 @@ public class StaffsService {
     Logger logger = LoggerFactory.getLogger(StaffsService.class);
 
     private String staffUrl ="http://case-staff/";
+    String all = "allstaff";
+
     public long getStaff() {
-        String all = "allstaff";
         try {
             AllStaff allStaff = restTemplate.getForObject(staffUrl+all, AllStaff.class);
             logger.info("staffs count {}", allStaff.getStaffs().stream().map(Staff::getEmpSalary).count());
@@ -29,14 +30,15 @@ public class StaffsService {
     }
 
     public long getTotalPayment() {
-        long incomeTotal;
+        long incomeTotal=0;
         try {
-            AllStaff allStaff = restTemplate.getForObject(staffUrl, AllStaff.class);
+            AllStaff allStaff = restTemplate.getForObject(staffUrl+all, AllStaff.class);
             logger.info("staffs {}", allStaff.getStaffs().stream().map(Staff::getEmpSalary).reduce(0L, Long::sum));
-            return allStaff.getStaffs().stream().map(Staff::getEmpSalary).reduce(0L, Long::sum);
+          incomeTotal= allStaff.getStaffs().stream().map(Staff::getEmpSalary).reduce(0L, Long::sum);
+       return incomeTotal;
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return 0;
+        return incomeTotal;
     }
 }

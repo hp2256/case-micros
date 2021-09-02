@@ -26,25 +26,64 @@ public class SearchService {
     private String roomsUrl = "http://case-rooms/";
 
     public List<Rooms> searchRooms(LocalDate checkIn, LocalDate checkOut) {
+        logger.info("checkIn {}", checkIn);
+        logger.info("checkout {}", checkOut);
         try {
             AllRooms allRooms = restTemplate.getForObject(roomsUrl + "allrooms", AllRooms.class);
+            logger.info("ALL ROOMS: {}", allRooms.getRooms().stream().count());
             List<Reservations> reservedRooms = reservedRoomsMgmtService.getAllReservations();
             List<Rooms> filtered = allRooms.getRooms();
-            for (int i = 0; i < reservedRooms.size(); i++) {
-                if (checkIn.isAfter(reservedRooms.get(i).getCheckInDate())
-                        && checkOut.isBefore(reservedRooms.get(i).getCheckOutDate())) {
-                    Reservations r = reservedRooms.get(i);
-                    filtered = allRooms.getRooms().stream().filter(x -> !x.getId().equals(r.getRoomId())).collect(Collectors.toList());
+            for (Reservations reservedRoom : reservedRooms) {
+                logger.info("reserved checkin {}", reservedRoom.getCheckInDate());
+                logger.info("reserved checkout {}", reservedRoom.getCheckOutDate());
+                //||checkIn.isEqual(reservedRoom.getCheckInDate())
+                //||checkOut.isEqual(reservedRoom.getCheckOutDate())
+                logger.info("Period {}", checkIn.until(checkOut));
+                /*reservedRoom.getCheckInDate().isAfter(checkIn)
+                        ||
+                        reservedRoom.getCheckInDate().equals(checkIn)
+                                &&
+                                reservedRoom.getCheckOutDate().isBefore(checkOut)
+                        ||
+                        reservedRoom.getCheckOutDate().isBefore(checkOut)*/
+                if (
+                        reservedRoom.getCheckInDate().isAfter(checkIn)
+                       // checkIn.isAfter(reservedRoom.getCheckInDate())
+
+                                &&
+                                reservedRoom.getCheckOutDate().isBefore(checkOut)
+                                ||
+                                checkIn.isAfter(reservedRoom.getCheckInDate())
+
+                                        &&
+                                  checkOut.isBefore(reservedRoom.getCheckOutDate())
+                                ||
+                                checkIn.equals(reservedRoom.getCheckInDate())
+                                ||
+                                checkOut.equals(reservedRoom.getCheckOutDate())
+                ) {
+                    logger.info("checkin after reserve checkin");
+                    filtered = allRooms.getRooms().stream().filter(x -> !x.getId().equals(reservedRoom.getRoomId())).collect(Collectors.toList());
+                    logger.info("total rooms: {}", filtered.stream().count());
+
+                } else {
+                    filtered = allRooms.getRooms();
                 }
+           /*     if (checkIn.isAfter(reservedRoom.getCheckInDate())
+                        && checkOut.isBefore(reservedRoom.getCheckOutDate())) {
+                    Reservations r = reservedRoom;
+                    logger.info("reserve checkIn {}", r.getCheckInDate());
+                    logger.info("reserve checkout {}", r.getCheckOutDate());
+                    filtered = allRooms.getRooms().stream().filter(x -> !x.getId().equals(r.getRoomId())).collect(Collectors.toList());
+                }*/
             }
             return filtered;
-        }
-        catch (Exception e){
-            logger.error("ERROR:" +e);
+        } catch (Exception e) {
+            logger.error("ERROR:" + e);
         }
         return null;
-      //  !x.getCheckInDate().after(checkIn)&&!x.getCheckOutDate().before(checkOut)
+        //  !x.getCheckInDate().after(checkIn)&&!x.getCheckOutDate().before(checkOut)
 
-      //  return null;
+        //  return null;
     }
 }

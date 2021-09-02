@@ -3,6 +3,7 @@ package com.hp.reservemgmtservice.models;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 
 @Document(value = "payments")
@@ -11,7 +12,7 @@ public class Payments {
     private String id;
     private double total;
     private String billId;
-    private LocalTime payTime;
+    private LocalDate payTime;
     private String cardNumber;
 
     public String getId() {
@@ -38,11 +39,11 @@ public class Payments {
         this.billId = billId;
     }
 
-    public LocalTime getPayTime() {
+    public LocalDate getPayTime() {
         return payTime;
     }
 
-    public void setPayTime(LocalTime payTime) {
+    public void setPayTime(LocalDate payTime) {
         this.payTime = payTime;
     }
 

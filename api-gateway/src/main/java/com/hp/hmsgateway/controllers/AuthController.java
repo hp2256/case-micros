@@ -19,7 +19,7 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@CrossOrigin(origins = "*", maxAge = 3600)
+@CrossOrigin(origins = "*",exposedHeaders = "*",allowedHeaders = "*", maxAge = 360000)
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {

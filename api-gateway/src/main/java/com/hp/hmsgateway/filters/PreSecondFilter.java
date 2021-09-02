@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
 
 import javax.servlet.http.HttpServletRequest;
-@Configuration
+//@Configuration
 public class PreSecondFilter extends ZuulFilter {
     private static Logger log = LoggerFactory.getLogger(PreSecondFilter.class);
     @Override

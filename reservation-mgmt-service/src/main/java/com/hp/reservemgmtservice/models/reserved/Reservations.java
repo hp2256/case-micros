@@ -21,9 +21,18 @@ public class Reservations {
     private String roomId;
     private String billId;
     private double price;
+    private int roomNo;
     private List<Guest> guests;
 
     Reservations() {
+    }
+
+    public int getRoomNo() {
+        return roomNo;
+    }
+
+    public void setRoomNo(int roomNo) {
+        this.roomNo = roomNo;
     }
 
     public List<Guest> getGuests() {

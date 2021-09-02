@@ -31,13 +31,9 @@ public class ReservedRoomsMgmtService implements ReservedRoomsDao {
        /* Query query = new Query();
         query.addCriteria(Criteria.where(reservations).is(reservations));
         return  mongoTemplate.find*/
-        try {
-            Rooms room = restTemplate.getForObject(roomsUrl + "rooms/" + reservations.getRoomId(), Rooms.class);
-            reservations.setPrice(room.getPrice());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
         return mongoTemplate.save(reservations);
+
     }
 
     @Override

@@ -26,12 +26,12 @@ public class DepartmentsRepo {
             return null;
     }
 
-    public void addDepartment(Departments departments) {
-        departmentDetailsDao.save(departments);
+    public Departments addDepartment(Departments departments) {
+      return   departmentDetailsDao.save(departments);
     }
 
-    public void updateDepartment(Departments departments) {
-        departmentDetailsDao.save(departments);
+    public Departments updateDepartment(Departments departments) {
+     return    departmentDetailsDao.save(departments);
     }
 
     public void deleteDepartment(String id) {

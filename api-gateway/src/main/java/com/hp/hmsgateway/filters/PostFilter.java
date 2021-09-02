@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-@Configuration
+//@Configuration
 public class PostFilter extends ZuulFilter {
     private static Logger log = LoggerFactory.getLogger(PostFilter.class);
     @Override

@@ -19,7 +19,7 @@ public class GuestsService {
         return all;
     }
 
-    public Guest getGuest(int id) {
+    public Guest getGuest(String id) {
         if (guestRepository.findById(id).isPresent())
             return guestRepository.findById(id).get();
         else

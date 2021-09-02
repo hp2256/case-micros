@@ -6,6 +6,7 @@ import com.hp.reservemgmtservice.models.bills.Bill;
 import com.hp.reservemgmtservice.models.reserved.AllReservations;
 import com.hp.reservemgmtservice.models.reserved.Reservations;
 import com.hp.reservemgmtservice.models.rooms.AllRooms;
+import com.hp.reservemgmtservice.models.rooms.Rooms;
 import com.hp.reservemgmtservice.repos.BillsRepo;
 import com.hp.reservemgmtservice.repos.PaymentRepo;
 import com.hp.reservemgmtservice.repos.ReservedRoomsMgmtService;
@@ -16,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDate;
 
@@ -32,12 +34,15 @@ public class RoomsController {
     SearchService searchService;
 
     @Autowired
+    RestTemplate restTemplate;
+    @Autowired
     BillGenerate billGenerate;
     @Autowired
     BillsRepo billsRepo;
 
     @Autowired
     PaymentRepo paymentRepo;
+    private String roomsUrl = "http://case-rooms/";
 
     @GetMapping("/allreservations")
     public AllReservations getAllrooms() {
@@ -48,6 +53,7 @@ public class RoomsController {
 
     //search providing dates
     @GetMapping("/search/{checkIn}/{checkOut}")
+    //search/{source}/{dest}/{date}
     public AllRooms getRooms(
             @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate checkIn,
             @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate checkOut) {
@@ -60,10 +66,19 @@ public class RoomsController {
 
     @PostMapping("/addreservation")
     public Reservations addReservation(@RequestBody Reservations reservations) {
-        int numberOfNights =
-                reservations.getCheckInDate().until(reservations.getCheckOutDate()).getDays();
-        reservations.setNumberOfNights(numberOfNights);
-        return reservationService.saveReservations(reservations);
+        try {
+            int numberOfNights =
+                    reservations.getCheckInDate().until(reservations.getCheckOutDate()).getDays();
+            reservations.setNumberOfNights(numberOfNights);
+            Rooms room = restTemplate.getForObject(roomsUrl + "rooms/" + reservations.getRoomId(), Rooms.class);
+            reservations.setPrice(room.getPrice());
+            reservations.setRoomNo(room.getRoomNumber());
+            return reservationService.saveReservations(reservations);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+       // return reservationService.saveReservations(reservations);
     }
 
     @GetMapping("/reservations/{id}")

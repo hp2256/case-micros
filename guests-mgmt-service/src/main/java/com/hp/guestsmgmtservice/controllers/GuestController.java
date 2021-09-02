@@ -1,5 +1,6 @@
 package com.hp.guestsmgmtservice.controllers;
 
+import com.hp.guestsmgmtservice.models.AllGuests;
 import com.hp.guestsmgmtservice.models.Guest;
 import com.hp.guestsmgmtservice.services.GuestsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,20 +10,25 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class GuestController {
 
     @Autowired
     GuestsService guestsService;
 
     @GetMapping("/allguests")
-    public List<Guest> getAllGuests() {
-        return guestsService.getAll();
+    public AllGuests getAllGuests() {
+        return new AllGuests(guestsService.getAll());
     }
 
    /* @GetMapping("/all")
     public Guests getAll(){
         return guestsService.getAllGuests();
     }*/
+   @GetMapping("/guest/{id}")
+   public Guest getGuest(@PathVariable String id){
+       return guestsService.getGuest(id);
+   }
 
     @PostMapping("/addguest")
     public Guest addGuest(@RequestBody Guest newGuest) {
