@@ -1,6 +1,4 @@
-package com.hp.reservemgmtservice.models;
-
-import com.hp.reservemgmtservice.models.bills.Bill;
+package com.hp.reservemgmtservice.models.payments;
 
 import java.util.List;
 

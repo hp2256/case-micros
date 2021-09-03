@@ -2,7 +2,7 @@ package com.hp.reservemgmtservice.repos;
 
 import com.hp.reservemgmtservice.dao.PaymentDao;
 import com.hp.reservemgmtservice.dao.ReservedRoomsDao;
-import com.hp.reservemgmtservice.models.Payments;
+import com.hp.reservemgmtservice.models.payments.Payments;
 import com.hp.reservemgmtservice.models.bills.Bill;
 import com.hp.reservemgmtservice.models.reserved.Reservations;
 import org.springframework.beans.factory.annotation.Autowired;

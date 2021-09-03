@@ -26,6 +26,9 @@ public class DepartmentsRepo {
             return null;
     }
 
+    public Departments getDepartmentById(String id){
+    return     departmentDetailsDao.findDepartmentById(id);
+    }
     public Departments addDepartment(Departments departments) {
       return   departmentDetailsDao.save(departments);
     }

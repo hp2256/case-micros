@@ -58,13 +58,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 */
         //old code
-        http.csrf().disable()
+        http.cors().and().csrf().disable()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 
                 .authorizeRequests()
                 .antMatchers("/api/auth/**").permitAll()
                 .antMatchers("/api/test/**").permitAll()
+                .antMatchers("/**").permitAll()
              //   .antMatchers(HttpMethod.GET,"/case-rooms/allrooms").hasAnyRole("OWNER")
                 .anyRequest().authenticated();
 
@@ -74,7 +75,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         //   http.headers().frameOptions().disable();
 
-       http.cors();
+     //  http.cors();
 
     }
    /* @Bean

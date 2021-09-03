@@ -37,7 +37,9 @@ public class CorsConfig implements WebMvcConfigurer {
             public void addCorsMappings(CorsRegistry registry) {
              //   logger.info("SERVER PORT IS cors {}", serverport);
                 registry.addMapping("/**")
+                        .allowedMethods("*")
                         .allowedOrigins("*")
+                        .exposedHeaders("*")
                 ;
             }
         };

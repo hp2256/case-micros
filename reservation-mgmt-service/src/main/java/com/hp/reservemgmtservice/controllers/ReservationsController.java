@@ -1,16 +1,16 @@
 package com.hp.reservemgmtservice.controllers;
 
-import com.hp.reservemgmtservice.models.Payments;
 import com.hp.reservemgmtservice.models.bills.AllBills;
 import com.hp.reservemgmtservice.models.bills.Bill;
+import com.hp.reservemgmtservice.models.payments.Payments;
 import com.hp.reservemgmtservice.models.reserved.AllReservations;
 import com.hp.reservemgmtservice.models.reserved.Reservations;
 import com.hp.reservemgmtservice.models.rooms.AllRooms;
-import com.hp.reservemgmtservice.models.rooms.Rooms;
 import com.hp.reservemgmtservice.repos.BillsRepo;
 import com.hp.reservemgmtservice.repos.PaymentRepo;
 import com.hp.reservemgmtservice.repos.ReservedRoomsMgmtService;
 import com.hp.reservemgmtservice.services.BillGenerate;
+import com.hp.reservemgmtservice.services.ReservationService;
 import com.hp.reservemgmtservice.services.SearchService;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
@@ -28,12 +28,14 @@ import java.time.LocalDate;
 public class ReservationsController {
 
     @Autowired
-    ReservedRoomsMgmtService reservationService;
+    ReservedRoomsMgmtService reservedRoomsMgmtService;
 
     Logger logger = LoggerFactory.getLogger(ReservationsController.class);
     @Autowired
     SearchService searchService;
 
+    @Autowired
+    ReservationService reservationService;
     @Autowired
     RestTemplate restTemplate;
     @Autowired
@@ -48,7 +50,7 @@ public class ReservationsController {
     @GetMapping("/allreservations")
     @ApiOperation(value = "All the reservations", notes = "Fetches all the reservations in the hotel")
     public AllReservations getAllrooms() {
-        return new AllReservations(reservationService.getAllReservations());
+        return new AllReservations(reservedRoomsMgmtService.getAllReservations());
 
         //new AllRooms(roomsService.getAllReservations());
     }
@@ -62,7 +64,7 @@ public class ReservationsController {
             @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate checkIn,
             @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate checkOut) {
         logger.info("check in date {} and check out date {}", checkIn, checkOut);
-        if (searchService.searchRooms(checkIn,checkOut)!=null) {
+        if (searchService.searchRooms(checkIn, checkOut) != null) {
             return new AllRooms(searchService.searchRooms(checkIn, checkOut));
         }
         return null;
@@ -73,31 +75,25 @@ public class ReservationsController {
 
     public Reservations addReservation(@RequestBody Reservations reservations) {
         try {
-            int numberOfNights =
-                    reservations.getCheckInDate().until(reservations.getCheckOutDate()).getDays();
-            reservations.setNumberOfNights(numberOfNights);
-            Rooms room = restTemplate.getForObject(roomsUrl + "rooms/" + reservations.getRoomId(), Rooms.class);
-            reservations.setPrice(room.getPrice());
-            reservations.setRoomNo(room.getRoomNumber());
-            return reservationService.saveReservations(reservations);
+            return reservationService.addReservation(reservations);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
-       // return reservationService.saveReservations(reservations);
+        // return reservationService.saveReservations(reservations);
     }
 
     @GetMapping("/reservations/{id}")
     @ApiOperation(value = "get the reservation", notes = "Fetches the given reservation in the hotel")
 
     public Reservations getReservations(@PathVariable String id) {
-        return reservationService.findOneById(id);
+        return reservedRoomsMgmtService.findOneById(id);
     }
 
     @PutMapping("/updatereservations")
     @ApiOperation(value = "updates the reservation", notes = "Updates the reservation in the hotel")
     public Reservations udpateRates(@RequestBody Reservations reservations) {
-        return reservationService.updateOneReservations(reservations);
+        return reservedRoomsMgmtService.updateOneReservations(reservations);
     }
     //billing mappings
 
@@ -108,8 +104,7 @@ public class ReservationsController {
     public Bill addBill(@RequestBody Reservations reservations) {
         if (reservations.getBillId() == null || reservations.getBillId().equals("")) {
             return billGenerate.issueBill(reservations);
-        }
-        else return billsRepo.findOneById(reservations.getBillId());
+        } else return billsRepo.findOneById(reservations.getBillId());
     }
 
     //get a single bill by id
