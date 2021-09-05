@@ -20,7 +20,11 @@ public class StaffsService {
 
     public long getStaff() {
         try {
+            //owner-> staff service
+            //staff -> localhost:8082/allstaff
+            //rest template (url, String.class);
             AllStaff allStaff = restTemplate.getForObject(staffUrl+all, AllStaff.class);
+
             logger.info("staffs count {}", allStaff.getStaffs().stream().map(Staff::getEmpSalary).count());
             return allStaff.getStaffs().stream().map(Staff::getEmpSalary).count();
         } catch (NullPointerException e) {
